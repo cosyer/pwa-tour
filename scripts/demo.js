@@ -4,8 +4,8 @@ switch (action) {
   case "eTicket":
     alert("电子票：xxx");
     break;
-  case "open":
-    alert("点击了打开页面");
+  case "lvmm":
+    alert("点击了打开驴妈妈");
     break;
   default:
 }
@@ -18,9 +18,9 @@ document.querySelector("#share").addEventListener("click", () => {
   }
   try {
     navigator.share({
-      title: "旅游网",
+      title: "驴妈妈旅游网",
       text: "这是分享内容",
-      url: "https://mydearest.cn"
+      url: "https://m.lvmama.com"
     });
   } catch (err) {
     alert(err);
@@ -33,7 +33,7 @@ if (!navigator.onLine) {
   body.classList.add("offline");
   footer.style.bottom = "0";
 }
-
+// 监听
 window.ononline = () => {
   body.classList.remove("offline");
   footer.style.bottom = "-51px";
@@ -49,6 +49,7 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./service-worker.js").then(registration => {
     console.log("Service Worker Registered");
     swRegistration = registration;
+    // 这里就是简单的注册sw.js然后将注册的实例对象挂载到全局
   });
 
   // 发送消息按钮事件
@@ -64,8 +65,8 @@ if ("serviceWorker" in navigator) {
                 title: "查看电子票"
               },
               {
-                action: "open",
-                title: "打开站点"
+                action: "lvmm",
+                title: "打开驴妈妈"
               }
             ],
             icon: "./images/logo.png",
@@ -77,4 +78,23 @@ if ("serviceWorker" in navigator) {
       });
     }
   });
+
+  // 发送请求
+  document.querySelector("#sendFetch").addEventListener("click", () => {
+    if (swRegistration) {
+      fetch("http://localhost:5500/images/logo.png", {
+        method: "GET",
+        headers: {
+          "Save-Data": "on"
+        }
+      });
+    }
+  });
+
+  navigator.serviceWorker.controller &&
+    navigator.serviceWorker.controller.postMessage("hellow sw");
 }
+
+navigator.serviceWorker.addEventListener("message", e => {
+  console.log("message111111", e.data);
+});
