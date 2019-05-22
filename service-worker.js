@@ -57,7 +57,7 @@ self.addEventListener("fetch", e => {
   if (/logo\.png$/.test(e.request.url)) {
     // 作为替代来响应请求
     // e.respondWith(
-    //     fetch('http://localhost:5500/images/user.png')
+    //     fetch('/images/user.png')
     // );
     if (e.request.headers.get("save-data")) {
       // 节省流量

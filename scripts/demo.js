@@ -82,7 +82,7 @@ if ("serviceWorker" in navigator) {
   // 发送请求
   document.querySelector("#sendFetch").addEventListener("click", () => {
     if (swRegistration) {
-      fetch("http://localhost:5500/images/logo.png", {
+      fetch("/images/logo.png", {
         method: "GET",
         headers: {
           "Save-Data": "on"
